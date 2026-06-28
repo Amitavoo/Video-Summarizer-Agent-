@@ -1,6 +1,6 @@
 import os 
 from langchain_chroma import Chroma
-from langchain_community.embeddings import HuggingFaceEmbedding
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 
@@ -9,7 +9,7 @@ COLLECTION_NAME = "meeting_transcripts"
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 
 def get_embeddings():
-    return HuggingFaceEmbedding(
+    return HuggingFaceEmbeddings(
         model_name = EMBEDDING_MODEL_NAME,
         model_kwargs = {"device": 'cpu'}
     )

@@ -1,7 +1,7 @@
 from langchain_mistralai import ChatMistralAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from lanchain_core.runnables import RunnableSequence, RunnableLambda
+from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 import os 
 from core.vector_store import build_vector_store, load_vector_store, get_retriever
 
@@ -33,21 +33,20 @@ def build_rag_chain(transcript : str):
             {context}""",
         ),
         ("human", "{question}"),
-    ]
-        )
+    ])
 
-        #full LCEL Rag pipeline
+    #full LCEL Rag pipeline
 
-        rag_chain = (
+    rag_chain = (
 
-            {
-                "context": retriever | RunnableLambda(format_docs),
-                "question": RunnablePassthrough()
-            }
-            |prompt|llm|StrOutputParser()
-        )
+        {
+            "context": retriever | RunnableLambda(format_docs),
+            "question": RunnablePassthrough()
+        }
+        |prompt|llm|StrOutputParser()
+    )
 
-        return rag_chain
+    return rag_chain
 
 #Load the rag chain
 def load_rag_chain():
@@ -69,18 +68,17 @@ def load_rag_chain():
             {context}""",
         ),
         ("human", "{question}"),
-    ]
-        )
-        rag_chain = (
+    ])
+    rag_chain = (
 
-            {
-                "context": retriever | RunnableLambda(format_docs),
-                "question": RunnablePassthrough()
-            }
-            |prompt|llm|StrOutputParser()
-        )
+        {
+            "context": retriever | RunnableLambda(format_docs),
+            "question": RunnablePassthrough()
+        }
+        |prompt|llm|StrOutputParser()
+    )
 
-        return rag_chain   
+    return rag_chain   
 
 def ask_question(rag_chain, question: str) -> str:
     print("Question: {question}")

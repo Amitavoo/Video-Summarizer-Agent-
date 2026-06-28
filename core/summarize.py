@@ -53,11 +53,8 @@ def summarize(transcript : str) -> str:
 
     return combined_chain.invoke(combined)
 
-def generate_title(transcipt : str) -> str:
+def generate_title(transcript : str) -> str:
     llm = get_llm()
-
-    
-
     title_chain = (
         RunnablePassthrough() | RunnableLambda(lambda x:{"text":x}) | 
         ChatPromptTemplate.from_messages([
@@ -71,8 +68,7 @@ def generate_title(transcipt : str) -> str:
         | llm
         |StrOutputParser()
     )
-
-    return title_chain.invoke(transcipt[:2000])
+    return title_chain.invoke(transcript[:2000])
 
 
 
